@@ -1,0 +1,56 @@
+---
+title: "leaflet"
+author: "P Pryor-hilliard"
+date: "20/10/2019"
+output: html_document
+---
+
+  
+  
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+
+library(leaflet)
+library(dplyr)
+library(knitr)
+
+
+city_names <- c("Moscow", "London", "Saint Petersburg", "Berlin", "Madrid", "Kyiv", "Rome",
+                "Paris", "Bucharest", "Minsk")
+
+
+populations <- c(10381222, 7556900, 5028000,
+                 3426354, 3255944, 2797553,
+                 2318895, 2138551, 1877155,
+                 1742124)
+longitudes <- c(37.6173, -0.118092, 30.3351, 13.4050, -3.7038, 30.5234, 12.4964, 2.3522, 26.1025,  27.5590)
+latitudes <- c(55.7558, 51.509865, 59.9343, 52.5200, 40.4168, 50.4501, 41.9028, 48.8566, 44.4268, 53.9006)
+
+top_10 <- data.frame(
+  cities = city_names,
+  pop = populations,
+  lng = longitudes,
+  lat = latitudes)
+
+```
+
+## Top 10 european cities by population, 2018.
+
+#### Size represents population
+#### tip: click on city markers to display name of city
+
+
+
+
+```{r, echo=FALSE}
+
+maps <- top_10 %>% leaflet() %>% addTiles() %>% addCircles(weight = 1, radius = sqrt(top_10$pop)*70) %>%
+  addMarkers(popup =  city_names)
+
+
+maps
+
+
+```
